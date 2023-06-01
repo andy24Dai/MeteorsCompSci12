@@ -56,4 +56,10 @@ public class Vector2D {
     public Vector2D copy() {
         return new Vector2D(this.x, this.y);
     }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "(" + x + ", " + y + ")";
+    }
 }

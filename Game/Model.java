@@ -1,12 +1,17 @@
 package Game;
 
+import java.util.ArrayList;
+
+import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
+import Game.Util.Vector2D;
 
 public class Model {
 
     // variables
     private View gui;
     private Ship ship;
+    private ArrayList<Meteor> meteors;
 
     private long prevTime;
     private long currentTime;
@@ -14,8 +19,16 @@ public class Model {
     public Model() {
         ship = new Ship(0, 0);
 
+        meteors = new ArrayList<Meteor>();
+        meteors.add(new Meteor(200, 100));
+        meteors.add(new Meteor(600, 100));
+
         prevTime = 0;
         currentTime = System.currentTimeMillis();
+    }
+
+    public ArrayList<Meteor> getMeteors() {
+        return meteors;
     }
 
     // sets gui reference
@@ -27,7 +40,21 @@ public class Model {
     public void updateView() {
         double dt = getDeltaT();
         ship.moveShip(dt);
+
+        System.out.print(ship.getRightX());
+        updateMeteors(dt);
+        // System.out.print(dt + " ");
         gui.update();
+    }
+
+    private void updateMeteors(double dt) {
+        for (Meteor meteor : meteors) {
+            meteor.updatePosition(dt);
+            // System.out.print(ship.isColliding(meteor) + " ");
+        }
+
+        // System.out.println();
+
     }
 
     public Ship getShip() {

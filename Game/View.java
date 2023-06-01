@@ -27,7 +27,7 @@ public class View extends JPanel {
         model = m;
         this.model.setGUI(this);
 
-        display = new JGameDisplay(model, 1080, 720);
+        display = new JGameDisplay(model, GameConstants.DISPLAY_WIDTH, GameConstants.DISPLAY_HEIGHT);
         text = new JButton("Button");
         text.setPreferredSize(new Dimension(100, 20));
         text.setFocusable(false);
@@ -54,6 +54,7 @@ public class View extends JPanel {
     // updates gui
     public void update() {
         repaint();
+
         model.getShip().printInfo();
     }
 }// class

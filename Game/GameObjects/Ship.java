@@ -6,15 +6,11 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import Game.Util.GameConstants;
+import Game.Util.Vector2D;
 
-public class Ship {
+public class Ship extends ColliderObject {
 
     // ************* variables *************
-    private int[] shipPos = new int[2]; // position of ship
-    private int[] shipVel = new int[2]; // velocity of the ship
-
-    private BufferedImage image; // ship icon
-    private int[] imageSize = new int[2]; // size of icon
 
     private int accelX; // if ship is accelerating in X axis and direction (-1,0,1)
     private int accelY; // if ship is accelerating in Y axis and direction (-1,0,1)
@@ -22,44 +18,11 @@ public class Ship {
     // ************* constructor *************
     public Ship(int x, int y) {
         // set shipPos
-        shipPos = new int[] { x, y };
-
-        // get shipIcon
-        try {
-            image = ImageIO.read(new File("Game/Sprites/eyeBot.png"));
-            imageSize[0] = image.getWidth();
-            imageSize[1] = image.getHeight();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        super(new Vector2D(x, y), "Game/Sprites/meteor1.png");
 
     }// constructor
 
     // ************* getters *************
-    public int[] getShipPos() {
-        return shipPos;
-    }
-
-    public int[] getShipVel() {
-        return shipVel;
-    }
-
-    public int getShipVelX() {
-        return shipVel[0];
-    }
-
-    public int getShipVelY() {
-        return shipVel[1];
-    }
-
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public int[] getImageSize() {
-        return imageSize;
-    }
 
     public int getAccelX() {
         return accelX;
@@ -70,23 +33,6 @@ public class Ship {
     }
 
     // ************* setters *************
-    public void setShipPos(int x, int y) {
-        shipPos[0] = x;
-        shipPos[1] = y;
-    }
-
-    public void setShipVel(int vx, int vy) {
-        shipVel[0] = vx;
-        shipVel[1] = vy;
-    }
-
-    public void setShipVelX(int vx) {
-        shipVel[0] = vx;
-    }
-
-    public void setShipVelY(int vy) {
-        shipVel[1] = vy;
-    }
 
     public void setAccelX(int accel) {
         accelX = accel;
@@ -98,80 +44,110 @@ public class Ship {
 
     // ************* kinematics *************
     public void moveShip(double deltaT) {
-        if (isInBoundsY()) {
-            if (accelX != 0) {
-                accelVx(accelX, deltaT);
-            } else {
-                deccelVx(deltaT);
-            }
+
+        if (accelX != 0) {
+            accelVx(accelX, deltaT);
+        } else {
+            deccelVx(deltaT);
+        }
+
+        if (isInBoundsX() != 0) {
+            this.setPosition((isInBoundsX() == GameConstants.RIGHT) ? 0 + this.getIconSize()[0] / 2
+                    : GameConstants.DISPLAY_WIDTH + this.getIconSize()[0] / 2, this.getPosition().getY());
+        }
+
+        if (isInBoundsY() == 0) {
 
             if (accelY != 0) {
                 accelVy(accelY, deltaT);
             } else {
                 deccelVy(deltaT);
             }
-
-            shipPos[0] += Math.ceil(Math.abs(shipVel[0] * deltaT)) * Math.signum(shipVel[0]);
-            shipPos[1] += Math.ceil(Math.abs(shipVel[1] * deltaT)) * Math.signum(shipVel[1]);
         }
+
+        else {
+            if (accelY == -isInBoundsY()) {
+                accelVy(accelY, deltaT);
+            } else {
+                this.setVelocity(this.getVelocity().getX(), 0);
+                this.setPosition(this.getPosition().getX(),
+                        (isInBoundsY() == GameConstants.UP) ? 0 + this.getIconSize()[1] / 2
+                                : GameConstants.DISPLAY_HEIGHT - this.getIconSize()[1] / 2);
+            }
+        }
+
+        this.updatePosition(deltaT);
 
     }
 
     public void accelVx(int dir, double deltaT) {
 
-        if (Math.abs(getShipVelX()) >= GameConstants.SPEED_PIXEL_PER_SECOND && Integer.signum(getShipVelX()) == dir) {
-            setShipVelX(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
+        if (Math.abs(this.getVelocity().getX()) >= GameConstants.SPEED_PIXEL_PER_SECOND
+                && Math.signum(this.getVelocity().getX()) == dir) {
+            this.getVelocity().setX(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
         } else {
-            setShipVelX((int) (getShipVelX() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
+            this.getVelocity().setX(
+                    (int) (this.getVelocity().getX() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
         }
 
     }
 
     public void deccelVx(double deltaT) {
         double deccel = GameConstants.DECCEL_PIXEL_PER_SECOND_SQUARED
-                * Math.cos(getAngle()) * deltaT;
+                * Math.cos(this.getVelocity().getAngleAbs()) * deltaT;
 
-        if (Math.abs(getShipVelX()) >= deccel) {
-            setShipVelX((int) (getShipVelX()
-                    - Integer.signum(getShipVelX()) * deccel));
+        if (Math.abs(this.getVelocity().getX()) >= deccel) {
+            this.getVelocity().setX((int) (this.getVelocity().getX()
+                    - Math.signum(this.getVelocity().getX()) * deccel));
         } else {
-            setShipVelX(0);
+            this.getVelocity().setX(0);
         }
     }
 
     public void accelVy(int dir, double deltaT) {
-        if (Math.abs(getShipVelY()) >= GameConstants.SPEED_PIXEL_PER_SECOND && Integer.signum(getShipVelY()) == dir) {
-            setShipVelY(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
+        if (Math.abs(this.getVelocity().getY()) >= GameConstants.SPEED_PIXEL_PER_SECOND
+                && Math.signum(this.getVelocity().getY()) == dir) {
+            this.getVelocity().setY(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
         } else {
-            setShipVelY((int) (getShipVelY() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
+            this.getVelocity().setY(
+                    (int) (this.getVelocity().getY() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
         }
     }
 
     public void deccelVy(double deltaT) {
         double deccel = GameConstants.DECCEL_PIXEL_PER_SECOND_SQUARED
-                * Math.sin(getAngle()) * deltaT;
+                * Math.sin(this.getVelocity().getAngleAbs()) * deltaT;
 
-        if (Math.abs(getShipVelY()) >= deccel) {
-            setShipVelY((int) (getShipVelY()
-                    - Integer.signum(getShipVelY()) * deccel));
+        if (Math.abs(this.getVelocity().getY()) >= deccel) {
+            this.getVelocity().setY((int) (this.getVelocity().getY()
+                    - Math.signum(this.getVelocity().getY()) * deccel));
         } else {
-            setShipVelY(0);
+            this.getVelocity().setY(0);
         }
     }
 
     // ************* other *************
     public void printInfo() {
-        System.out.printf("   V: %2d , %2d P: %4d , %4d Angle: %4.2f In Bounds: %4b\n", shipVel[0], shipVel[1],
-                shipPos[0], shipPos[1],
-                getAngle(), isInBoundsY());
+        System.out.printf("   V: %2s P: %4s Angle: %4.2f In Bounds: %4d\n", this.getVelocity(), this.getPosition(),
+                this.getVelocity().getAngleAbs(), isInBoundsX());
     }
 
-    private double getAngle() {
-        return Math.atan(Math.abs((double) getShipVelY() / (double) getShipVelX()));
+    private int isInBoundsY() {
+        if (this.getTopY() <= 0) {
+            return GameConstants.UP;
+        } else if (this.getBottomY() >= GameConstants.DISPLAY_HEIGHT) {
+            return GameConstants.DOWN;
+        }
+        return 0;
     }
 
-    private boolean isInBoundsY() {
-        return getShipPos()[1] + imageSize[1] / 2 <= 720 && getShipPos()[1] - imageSize[1] / 2 >= 0;
+    private int isInBoundsX() {
+        if (this.getRightX() <= 0) {
+            return GameConstants.LEFT;
+        } else if (this.getLeftX() >= GameConstants.DISPLAY_WIDTH) {
+            return GameConstants.RIGHT;
+        }
+        return 0;
     }
 
 }// class

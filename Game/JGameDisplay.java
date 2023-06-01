@@ -4,12 +4,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.Timer;
+import java.awt.image.BufferedImage;
 
+import javax.swing.Timer;
+import javax.swing.text.Position;
 import javax.swing.JComponent;
 
+import Game.GameObjects.ColliderObject;
+import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
 import Game.Util.GameConstants;
+import Game.Util.Vector2D;
 
 public class JGameDisplay extends JComponent implements ActionListener {
     private Model model;
@@ -20,7 +25,7 @@ public class JGameDisplay extends JComponent implements ActionListener {
         super();
         model = m;
         ship = model.getShip();
-        ship.setShipPos(w / 2, h / 2);
+        ship.setPosition(w / 2, h / 2);
         this.setPreferredSize(new Dimension(w, h));
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
@@ -33,14 +38,25 @@ public class JGameDisplay extends JComponent implements ActionListener {
         // TODO Auto-generated method stub
         super.paintComponent(g);
 
-        int[] cornerPos = posToCorner(ship.getShipPos(), ship.getImageSize());
-        g.drawImage(ship.getImage(), cornerPos[0], cornerPos[1], null);
+        drawObject(g, ship);
+        drawMeteors(g);
 
     }
 
+    private void drawMeteors(Graphics g) {
+        for (Meteor meteor : model.getMeteors()) {
+            drawObject(g, meteor);
+        }
+    }
+
+    private void drawObject(Graphics g, ColliderObject object) {
+        Vector2D cornerPos = posToCorner(object.getPosition(), object.getIconSize());
+        g.drawImage(object.getIcon(), (int) cornerPos.getX(), (int) cornerPos.getY(), null);
+    }
+
     // translates center point to top left corner
-    private int[] posToCorner(int[] pos, int[] size) {
-        return new int[] { pos[0] - size[0] / 2, pos[1] - size[1] / 2 };
+    private Vector2D posToCorner(Vector2D pos, int[] size) {
+        return new Vector2D(pos.getX() - size[0] / 2, pos.getY() - size[1] / 2);
     }
 
     @Override
