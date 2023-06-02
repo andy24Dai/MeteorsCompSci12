@@ -67,4 +67,8 @@ public class Model {
         return (currentTime - prevTime) / 1000.0;
     }
 
+    public double getTime() {
+        return System.currentTimeMillis() / 1000.0;
+    }
+
 }// class
