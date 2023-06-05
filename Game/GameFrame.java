@@ -13,8 +13,8 @@ public class GameFrame extends JFrame {
 
     public GameFrame() {
         super("Game");
-        model = new Model();
-        gui = new View(model);
+        model = Model.getInstance();
+        gui = View.getInstance();
 
         this.setContentPane(gui);
         this.pack();

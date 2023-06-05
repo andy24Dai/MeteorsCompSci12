@@ -6,7 +6,7 @@ import Game.Model;
 
 public class PauseMenu extends JPanel {
 
-    public PauseMenu(Model m) {
+    public PauseMenu() {
     }
 
 }

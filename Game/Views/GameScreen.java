@@ -22,8 +22,8 @@ public class GameScreen extends JPanel {
     private JLabel roundNum;
 
     // constructor
-    public GameScreen(Model m) {
-        model = m;
+    public GameScreen() {
+        model = Model.getInstance();
 
         display = new JGameDisplay(model, GameConstants.DISPLAY_WIDTH, GameConstants.DISPLAY_HEIGHT);
         time = new JLabel();
@@ -51,6 +51,6 @@ public class GameScreen extends JPanel {
     public void update() {
         repaint();
         time.setText(Double.toString(model.getDeltaT()));
-        model.getShip().printInfo();
+        // model.getShip().printInfo();
     }
 }

@@ -5,23 +5,42 @@ import java.util.ArrayList;
 import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
 import Game.Util.Vector2D;
+import Game.View.Screens;
 
 public class Model {
 
     // variables
+    private static Model mModel;
     private View gui;
+
+    // game objects
     private Ship ship;
     private ArrayList<Meteor> meteors;
 
+    // game states
+    private boolean isGameRunning;
+    private int roundNum;
+    private int currentRound;
+
+    // time
     private long prevTime;
     private long currentTime;
 
-    public Model() {
+    public static Model getInstance() {
+        if (mModel == null) {
+            mModel = new Model();
+        }
+        return mModel;
+    }
+
+    private Model() {
         ship = new Ship(0, 0);
 
         meteors = new ArrayList<Meteor>();
         meteors.add(new Meteor(200, 100));
         meteors.add(new Meteor(600, 100));
+
+        isGameRunning = false;
 
         prevTime = 0;
         currentTime = System.currentTimeMillis();
@@ -36,14 +55,21 @@ public class Model {
         gui = g;
     }
 
+    public void setRoundNum(int roundNum) {
+        this.roundNum = roundNum;
+    }
+
+    public void setGameRunning(boolean isGameRunning) {
+        this.isGameRunning = isGameRunning;
+    }
+
     // updates gui
     public void updateView() {
-        double dt = getDeltaT();
-        ship.moveShip(dt);
-
-        System.out.print(ship.getRightX());
-        updateMeteors(dt);
-        // System.out.print(dt + " ");
+        if (isGameRunning) {
+            double dt = getDeltaT();
+            ship.moveShip(dt);
+            updateMeteors(dt);
+        }
         gui.update();
     }
 
@@ -71,4 +97,7 @@ public class Model {
         return System.currentTimeMillis() / 1000.0;
     }
 
+    public void setScreen(Screens sc) {
+        gui.setScreen(sc);
+    }
 }// class

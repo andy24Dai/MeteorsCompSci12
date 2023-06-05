@@ -1,20 +1,7 @@
 package Game;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import Game.Controllers.ShipController;
-import Game.GameObjects.Ship;
-import Game.Util.GameConstants;
 import Game.Views.GameScreen;
 import Game.Views.PauseMenu;
 import Game.Views.StartMenu;
@@ -22,20 +9,34 @@ import Game.Views.StartMenu;
 public class View extends JPanel {
 
     // variables
+    private static View mView;
     private Model model;
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
     private CardLayout cardLayout;
 
+    public static View getInstance() {
+        if (mView == null) {
+            mView = new View();
+        }
+        return mView;
+    }
+
+    public enum Screens {
+        GAME,
+        START,
+        PAUSE
+    }
+
     // constructor
-    public View(Model m) {
-        model = m;
+    private View() {
+        model = Model.getInstance();
         this.model.setGUI(this);
 
-        game = new GameScreen(m);
-        start = new StartMenu(m);
-        pause = new PauseMenu(m);
+        game = new GameScreen();
+        start = new StartMenu();
+        pause = new PauseMenu();
 
         cardLayout = new CardLayout();
 
@@ -51,7 +52,7 @@ public class View extends JPanel {
         this.add("StartMenu", start);
         this.add("PauseMenu", pause);
 
-        cardLayout.show(this, "GameScreen");
+        cardLayout.show(this, "StartMenu");
 
     }// layoutView
 
@@ -63,5 +64,23 @@ public class View extends JPanel {
     public void update() {
         repaint();
         game.update();
+    }
+
+    public void setScreen(Screens sc) {
+        switch (sc) {
+            case GAME:
+                cardLayout.show(this, "GameScreen");
+                break;
+
+            case START:
+                cardLayout.show(this, "StartMenu");
+                break;
+
+            case PAUSE:
+                cardLayout.show(this, "PauseMenu");
+                break;
+            default:
+                break;
+        }
     }
 }// class
