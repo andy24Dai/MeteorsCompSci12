@@ -1,13 +1,18 @@
 package Game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
+import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 import Game.View.Screens;
 
-public class Model {
+public class Model implements ActionListener {
 
     // variables
     private static Model mModel;
@@ -23,6 +28,8 @@ public class Model {
     private int currentRound;
 
     // time
+    private Timer timer;
+    private long startTime;
     private long prevTime;
     private long currentTime;
 
@@ -40,8 +47,11 @@ public class Model {
         meteors.add(new Meteor(200, 100));
         meteors.add(new Meteor(600, 100));
 
+        timer = new Timer(GameConstants.REFRESH_RATE_MILISECONDS, this);
+
         isGameRunning = false;
 
+        startTime = System.currentTimeMillis();
         prevTime = 0;
         currentTime = System.currentTimeMillis();
     }
@@ -94,10 +104,23 @@ public class Model {
     }
 
     public double getTime() {
-        return System.currentTimeMillis() / 1000.0;
+        return (System.currentTimeMillis() - startTime) / 1000.0;
     }
 
-    public void setScreen(Screens sc) {
-        gui.setScreen(sc);
+    public void startGame(int num) {
+        this.setRoundNum(num);
+        this.setGameRunning(true);
+
+        this.timer.start();
+        startTime = System.currentTimeMillis();
+        gui.setScreen(Screens.GAME);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        updateView();
+    }
+
+    public void pauseGame() {
     }
 }// class

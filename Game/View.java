@@ -15,6 +15,7 @@ public class View extends JPanel {
     private StartMenu start;
     private PauseMenu pause;
     private CardLayout cardLayout;
+    private JPanel switchPanel;
 
     public static View getInstance() {
         if (mView == null) {
@@ -38,21 +39,25 @@ public class View extends JPanel {
         start = new StartMenu();
         pause = new PauseMenu();
 
+        switchPanel = new JPanel();
         cardLayout = new CardLayout();
 
         this.layoutView();
         this.registerControllers();
         this.update();
+
     }
 
     // adds components to itself
     private void layoutView() {
-        this.setLayout(cardLayout);
-        this.add("GameScreen", game);
-        this.add("StartMenu", start);
-        this.add("PauseMenu", pause);
+        switchPanel.setLayout(cardLayout);
+        switchPanel.add("Game", game);
+        switchPanel.add("Start", start);
+        switchPanel.add("Pause", pause);
 
-        cardLayout.show(this, "StartMenu");
+        this.add(switchPanel);
+
+        cardLayout.show(switchPanel, "Start");
 
     }// layoutView
 
@@ -62,23 +67,24 @@ public class View extends JPanel {
 
     // updates gui
     public void update() {
-        repaint();
         game.update();
     }
 
     public void setScreen(Screens sc) {
         switch (sc) {
             case GAME:
-                cardLayout.show(this, "GameScreen");
+                this.cardLayout.show(switchPanel, "Game");
+                game.requestFocusInWindow();
                 break;
 
             case START:
-                cardLayout.show(this, "StartMenu");
+                this.cardLayout.show(switchPanel, "Start");
                 break;
 
             case PAUSE:
-                cardLayout.show(this, "PauseMenu");
+                this.cardLayout.show(switchPanel, "Pause");
                 break;
+
             default:
                 break;
         }

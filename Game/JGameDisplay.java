@@ -19,7 +19,6 @@ import Game.Util.Vector2D;
 public class JGameDisplay extends JComponent implements ActionListener {
     private Model model;
     private Ship ship;
-    private Timer timer;
 
     public JGameDisplay(Model m, int w, int h) {
         super();
@@ -29,8 +28,6 @@ public class JGameDisplay extends JComponent implements ActionListener {
         this.setPreferredSize(new Dimension(w, h));
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-        timer = new Timer(GameConstants.REFRESH_RATE_MILISECONDS, this);
-        timer.start();
     }
 
     @Override
@@ -61,6 +58,7 @@ public class JGameDisplay extends JComponent implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        this.repaint();
         model.updateView();
     }
 

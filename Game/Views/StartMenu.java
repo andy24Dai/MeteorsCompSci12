@@ -23,7 +23,7 @@ public class StartMenu extends JPanel {
         model = Model.getInstance();
 
         roundsLabel = new JLabel("How Many Rounds:");
-        numRounds = new JTextField(1);
+        numRounds = new JTextField("1");
         start = new JButton("START");
         start.setPreferredSize(new Dimension(200, 200));
         start.setFocusable(false);

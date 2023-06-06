@@ -44,13 +44,14 @@ public class GameScreen extends JPanel {
 
     // sets up controllers for button
     private void registerControllers() {
-        display.addKeyListener(new ShipController(model.getShip()));
+        ShipController shipControl = new ShipController(model.getShip());
+        this.addKeyListener(shipControl);
     }
 
     // updates gui
     public void update() {
-        repaint();
-        time.setText(Double.toString(model.getDeltaT()));
+        display.repaint();
+        time.setText(Double.toString(model.getTime()));
         // model.getShip().printInfo();
     }
 }

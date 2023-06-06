@@ -18,7 +18,6 @@ public class GameFrame extends JFrame {
 
         this.setContentPane(gui);
         this.pack();
-        this.addKeyListener(new ShipController(model.getShip()));
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);

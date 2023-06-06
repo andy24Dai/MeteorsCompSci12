@@ -20,9 +20,8 @@ public class StartMenuController extends ActionController {
     public void actionPerformed(ActionEvent e) {
         try {
             int num = Integer.parseInt(numRounds.getText());
-            model.setRoundNum(num);
-            model.setGameRunning(true);
-            model.setScreen(Screens.GAME);
+            model.startGame(num);
+
         } catch (NumberFormatException ex) {
             numRounds.setText("Invalid");
         }
