@@ -14,7 +14,8 @@ import Game.View.Screens;
 
 public class Model implements ActionListener {
 
-    // variables
+    // ************ VARIABLES **************
+
     private static Model mModel;
     private View gui;
 
@@ -32,6 +33,8 @@ public class Model implements ActionListener {
     private long startTime;
     private long prevTime;
     private long currentTime;
+
+    // ************ METHODS **************
 
     public static Model getInstance() {
         if (mModel == null) {
@@ -51,14 +54,41 @@ public class Model implements ActionListener {
 
         isGameRunning = false;
 
+        currentRound = 1;
+
         startTime = System.currentTimeMillis();
         prevTime = 0;
         currentTime = System.currentTimeMillis();
     }
 
+    // ************ GETTERS **************
     public ArrayList<Meteor> getMeteors() {
         return meteors;
     }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public double getDeltaT() {
+        prevTime = currentTime;
+        currentTime = System.currentTimeMillis();
+        return (currentTime - prevTime) / 1000.0;
+    }
+
+    public double getTime() {
+        return (System.currentTimeMillis() - startTime) / 1000.0;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public Screens getCurrentScreen() {
+        return gui.getCurrentScreen();
+    }
+
+    // ************ SETTERS **************
 
     // sets gui reference
     public void setGUI(View g) {
@@ -72,6 +102,8 @@ public class Model implements ActionListener {
     public void setGameRunning(boolean isGameRunning) {
         this.isGameRunning = isGameRunning;
     }
+
+    // ************ UPDATE **************
 
     // updates gui
     public void updateView() {
@@ -93,19 +125,7 @@ public class Model implements ActionListener {
 
     }
 
-    public Ship getShip() {
-        return ship;
-    }
-
-    public double getDeltaT() {
-        prevTime = currentTime;
-        currentTime = System.currentTimeMillis();
-        return (currentTime - prevTime) / 1000.0;
-    }
-
-    public double getTime() {
-        return (System.currentTimeMillis() - startTime) / 1000.0;
-    }
+    // ************ GAME STATE CONTROL **************
 
     public void startGame(int num) {
         this.setRoundNum(num);
@@ -116,11 +136,24 @@ public class Model implements ActionListener {
         gui.setScreen(Screens.GAME);
     }
 
+    public void pauseGame() {
+        this.timer.stop();
+        this.setGameRunning(false);
+        gui.setScreen(Screens.PAUSE);
+    }
+
+    public void resumeGame() {
+        this.setGameRunning(true);
+
+        this.timer.start();
+        gui.setScreen(Screens.GAME);
+    }
+
+    // ************ OTHER **************
+
     @Override
     public void actionPerformed(ActionEvent e) {
         updateView();
     }
 
-    public void pauseGame() {
-    }
 }// class

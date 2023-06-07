@@ -1,18 +1,19 @@
 package Game.Controllers;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JTextField;
 
-import Game.View.Screens;
+import Game.Model;
 
-public class StartMenuController extends ActionController {
+public class StartMenuController implements ActionListener {
 
+    private Model model;
     private JTextField numRounds;
 
     public StartMenuController(JTextField input) {
-        super();
+        model = Model.getInstance();
         numRounds = input;
     }
 

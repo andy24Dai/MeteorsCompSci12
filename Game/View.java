@@ -8,7 +8,8 @@ import Game.Views.StartMenu;
 
 public class View extends JPanel {
 
-    // variables
+    // ************ VARIABLES **************
+
     private static View mView;
     private Model model;
     private GameScreen game;
@@ -16,18 +17,20 @@ public class View extends JPanel {
     private PauseMenu pause;
     private CardLayout cardLayout;
     private JPanel switchPanel;
-
-    public static View getInstance() {
-        if (mView == null) {
-            mView = new View();
-        }
-        return mView;
-    }
+    private Screens currentScreen;
 
     public enum Screens {
         GAME,
         START,
         PAUSE
+    }
+
+    // ************ METHODS **************
+    public static View getInstance() {
+        if (mView == null) {
+            mView = new View();
+        }
+        return mView;
     }
 
     // constructor
@@ -41,6 +44,8 @@ public class View extends JPanel {
 
         switchPanel = new JPanel();
         cardLayout = new CardLayout();
+
+        currentScreen = Screens.START;
 
         this.layoutView();
         this.registerControllers();
@@ -57,7 +62,7 @@ public class View extends JPanel {
 
         this.add(switchPanel);
 
-        cardLayout.show(switchPanel, "Start");
+        this.setScreen(currentScreen);
 
     }// layoutView
 
@@ -70,23 +75,36 @@ public class View extends JPanel {
         game.update();
     }
 
+    // ************ GETTERS **************
+
+    public Screens getCurrentScreen() {
+        return currentScreen;
+    }
+
+    // ************ SETTERS **************
+
     public void setScreen(Screens sc) {
         switch (sc) {
             case GAME:
                 this.cardLayout.show(switchPanel, "Game");
                 game.requestFocusInWindow();
+                this.currentScreen = Screens.GAME;
                 break;
 
             case START:
                 this.cardLayout.show(switchPanel, "Start");
+                this.currentScreen = Screens.START;
                 break;
 
             case PAUSE:
                 this.cardLayout.show(switchPanel, "Pause");
+                this.currentScreen = Screens.PAUSE;
                 break;
 
             default:
                 break;
         }
+
     }
+
 }// class

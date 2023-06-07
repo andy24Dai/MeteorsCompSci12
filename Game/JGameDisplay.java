@@ -16,7 +16,7 @@ import Game.GameObjects.Ship;
 import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 
-public class JGameDisplay extends JComponent implements ActionListener {
+public class JGameDisplay extends JComponent {
     private Model model;
     private Ship ship;
 
@@ -26,8 +26,6 @@ public class JGameDisplay extends JComponent implements ActionListener {
         ship = model.getShip();
         ship.setPosition(w / 2, h / 2);
         this.setPreferredSize(new Dimension(w, h));
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
     }
 
     @Override
@@ -55,11 +53,4 @@ public class JGameDisplay extends JComponent implements ActionListener {
     private Vector2D posToCorner(Vector2D pos, int[] size) {
         return new Vector2D(pos.getX() - size[0] / 2, pos.getY() - size[1] / 2);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        this.repaint();
-        model.updateView();
-    }
-
 }

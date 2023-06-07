@@ -8,7 +8,7 @@ public class GameConstants {
 
     public static final int SPEED_PIXEL_PER_SECOND = 700;
     public static final int ACCEL_PIXEL_PER_SECOND_SQUARED = 2000;
-    public static final int DECCEL_PIXEL_PER_SECOND_SQUARED = 2000;
+    public static final int DECCEL_PIXEL_PER_SECOND_SQUARED = 1000;
 
     public static final int LEFT = -1;
     public static final int RIGHT = 1;

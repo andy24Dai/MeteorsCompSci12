@@ -3,6 +3,7 @@ package Game.Views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 
 import Game.JGameDisplay;
 import Game.Model;
+import Game.Controllers.PauseController;
 import Game.Controllers.ShipController;
 import Game.Util.GameConstants;
 
@@ -18,7 +20,7 @@ public class GameScreen extends JPanel {
     // variables
     private Model model;
     private JGameDisplay display;
-    private JLabel time;
+    private JLabel info;
     private JLabel roundNum;
 
     // constructor
@@ -26,7 +28,9 @@ public class GameScreen extends JPanel {
         model = Model.getInstance();
 
         display = new JGameDisplay(model, GameConstants.DISPLAY_WIDTH, GameConstants.DISPLAY_HEIGHT);
-        time = new JLabel();
+        info = new JLabel();
+        info.setPreferredSize(new Dimension(50, 100));
+        // info.setFont(new Font(Font.MONOSPACED,));
 
         this.layoutView();
         this.registerControllers();
@@ -38,7 +42,7 @@ public class GameScreen extends JPanel {
         display.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5, true));
 
         this.setLayout(new BorderLayout());
-        this.add(time, BorderLayout.NORTH);
+        this.add(info, BorderLayout.NORTH);
         this.add(display, BorderLayout.CENTER);
     }// layoutView
 
@@ -46,12 +50,15 @@ public class GameScreen extends JPanel {
     private void registerControllers() {
         ShipController shipControl = new ShipController(model.getShip());
         this.addKeyListener(shipControl);
+
+        // PauseController pauseControl = new PauseController();
+        this.addKeyListener(PauseController.getInstance());
     }
 
     // updates gui
     public void update() {
         display.repaint();
-        time.setText(Double.toString(model.getTime()));
+        info.setText(String.format("Time: %-6.2f             Round: %-4d", model.getTime(), model.getCurrentRound()));
         // model.getShip().printInfo();
     }
 }

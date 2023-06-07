@@ -18,7 +18,7 @@ public class Ship extends ColliderObject {
     // ************* constructor *************
     public Ship(int x, int y) {
         // set shipPos
-        super(new Vector2D(x, y), "Game/Sprites/meteor1.png");
+        super(new Vector2D(x, y), "Game/Sprites/eyeBot.png");
 
     }// constructor
 
