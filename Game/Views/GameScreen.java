@@ -58,7 +58,8 @@ public class GameScreen extends JPanel {
     // updates gui
     public void update() {
         display.repaint();
-        info.setText(String.format("Time: %-6.2f             Round: %-4d", model.getTime(), model.getCurrentRound()));
+        info.setText(String.format("Time: %-6.2f             Round: %-4d", model.getTimeSurvived(),
+                model.getCurrentRound()));
         // model.getShip().printInfo();
     }
 }

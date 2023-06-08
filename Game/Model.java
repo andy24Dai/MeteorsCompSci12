@@ -9,7 +9,6 @@ import javax.swing.Timer;
 import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
 import Game.Util.GameConstants;
-import Game.Util.Vector2D;
 import Game.View.Screens;
 
 public class Model implements ActionListener {
@@ -24,13 +23,12 @@ public class Model implements ActionListener {
     private ArrayList<Meteor> meteors;
 
     // game states
-    private boolean isGameRunning;
     private int roundNum;
     private int currentRound;
 
     // time
+    private double timeSurvived;
     private Timer timer;
-    private long startTime;
     private long prevTime;
     private long currentTime;
 
@@ -52,11 +50,10 @@ public class Model implements ActionListener {
 
         timer = new Timer(GameConstants.REFRESH_RATE_MILISECONDS, this);
 
-        isGameRunning = false;
+        timeSurvived = 0;
 
         currentRound = 1;
 
-        startTime = System.currentTimeMillis();
         prevTime = 0;
         currentTime = System.currentTimeMillis();
     }
@@ -76,8 +73,8 @@ public class Model implements ActionListener {
         return (currentTime - prevTime) / 1000.0;
     }
 
-    public double getTime() {
-        return (System.currentTimeMillis() - startTime) / 1000.0;
+    public double getTimeSurvived() {
+        return timeSurvived;
     }
 
     public int getCurrentRound() {
@@ -99,19 +96,17 @@ public class Model implements ActionListener {
         this.roundNum = roundNum;
     }
 
-    public void setGameRunning(boolean isGameRunning) {
-        this.isGameRunning = isGameRunning;
-    }
-
     // ************ UPDATE **************
 
     // updates gui
     public void updateView() {
-        if (isGameRunning) {
-            double dt = getDeltaT();
-            ship.moveShip(dt);
-            updateMeteors(dt);
-        }
+        double dt = getDeltaT();
+        ship.moveShip(dt);
+        updateMeteors(dt);
+
+        System.out.println("updating " + dt);
+        timeSurvived += dt;
+
         gui.update();
     }
 
@@ -129,24 +124,40 @@ public class Model implements ActionListener {
 
     public void startGame(int num) {
         this.setRoundNum(num);
-        this.setGameRunning(true);
-
         this.timer.start();
-        startTime = System.currentTimeMillis();
         gui.setScreen(Screens.GAME);
     }
 
     public void pauseGame() {
         this.timer.stop();
-        this.setGameRunning(false);
         gui.setScreen(Screens.PAUSE);
     }
 
     public void resumeGame() {
-        this.setGameRunning(true);
-
         this.timer.start();
+        this.currentTime = System.currentTimeMillis();
         gui.setScreen(Screens.GAME);
+    }
+
+    public void endGame() {
+        this.timer.stop();
+        gui.setScreen(Screens.END);
+    }
+
+    public void continueGame() {
+        if (currentRound <= roundNum) {
+            this.resetGame();
+            this.resumeGame();
+            currentRound++;
+        } else {
+            endGame();
+        }
+    }
+
+    private void resetGame() {
+        timeSurvived = 0;
+        // ship.resetPosition();
+        meteors.clear();
     }
 
     // ************ OTHER **************

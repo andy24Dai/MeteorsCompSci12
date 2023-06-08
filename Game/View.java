@@ -2,6 +2,8 @@ package Game;
 
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+
+import Game.Views.EndGameScreen;
 import Game.Views.GameScreen;
 import Game.Views.PauseMenu;
 import Game.Views.StartMenu;
@@ -15,6 +17,7 @@ public class View extends JPanel {
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
+    private EndGameScreen end;
     private CardLayout cardLayout;
     private JPanel switchPanel;
     private Screens currentScreen;
@@ -22,7 +25,8 @@ public class View extends JPanel {
     public enum Screens {
         GAME,
         START,
-        PAUSE
+        PAUSE,
+        END
     }
 
     // ************ METHODS **************
@@ -41,6 +45,7 @@ public class View extends JPanel {
         game = new GameScreen();
         start = new StartMenu();
         pause = new PauseMenu();
+        end = new EndGameScreen();
 
         switchPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -59,6 +64,7 @@ public class View extends JPanel {
         switchPanel.add("Game", game);
         switchPanel.add("Start", start);
         switchPanel.add("Pause", pause);
+        switchPanel.add("End", end);
 
         this.add(switchPanel);
 
@@ -101,6 +107,11 @@ public class View extends JPanel {
                 this.currentScreen = Screens.PAUSE;
                 break;
 
+            case END:
+                this.cardLayout.show(switchPanel, "End");
+                this.end.update();
+                this.currentScreen = Screens.END;
+                break;
             default:
                 break;
         }
