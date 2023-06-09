@@ -15,13 +15,16 @@ public class View extends JPanel {
 
     private static View mView;
     private Model model;
+
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
     private EndGameScreen end;
     private SummaryScreen summary;
+
     private CardLayout cardLayout;
     private JPanel switchPanel;
+
     private Screens currentScreen;
 
     public enum Screens {

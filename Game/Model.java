@@ -163,6 +163,7 @@ public class Model implements ActionListener {
     public void endGame() {
         gui.setScreen(Screens.SUMMARY);
         this.timer.stop();
+        gui.setScreen(Screens.SUMMARY);
     }
 
     public void endRound() {
@@ -182,6 +183,9 @@ public class Model implements ActionListener {
 
     private void resetGame() {
         timeSurvived = 0;
+        ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
+        ;
+        meteors.clear();
         ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
         // meteors.clear();
     }
