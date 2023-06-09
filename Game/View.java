@@ -7,6 +7,7 @@ import Game.Views.EndGameScreen;
 import Game.Views.GameScreen;
 import Game.Views.PauseMenu;
 import Game.Views.StartMenu;
+import Game.Views.SummaryScreen;
 
 public class View extends JPanel {
 
@@ -14,19 +15,24 @@ public class View extends JPanel {
 
     private static View mView;
     private Model model;
+
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
     private EndGameScreen end;
+    private SummaryScreen summary;
+
     private CardLayout cardLayout;
     private JPanel switchPanel;
+
     private Screens currentScreen;
 
     public enum Screens {
         GAME,
         START,
         PAUSE,
-        END
+        END,
+        SUMMARY
     }
 
     // ************ METHODS **************
@@ -46,6 +52,7 @@ public class View extends JPanel {
         start = new StartMenu();
         pause = new PauseMenu();
         end = new EndGameScreen();
+        summary = new SummaryScreen();
 
         switchPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -65,6 +72,7 @@ public class View extends JPanel {
         switchPanel.add("Start", start);
         switchPanel.add("Pause", pause);
         switchPanel.add("End", end);
+        switchPanel.add("Summary", summary);
 
         this.add(switchPanel);
 
@@ -111,6 +119,12 @@ public class View extends JPanel {
                 this.cardLayout.show(switchPanel, "End");
                 this.end.update();
                 this.currentScreen = Screens.END;
+                break;
+
+            case SUMMARY:
+                this.cardLayout.show(switchPanel, "Summary");
+                this.summary.update();
+                this.currentScreen = Screens.SUMMARY;
                 break;
             default:
                 break;

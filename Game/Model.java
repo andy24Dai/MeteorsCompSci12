@@ -141,11 +141,16 @@ public class Model implements ActionListener {
 
     public void endGame() {
         this.timer.stop();
+        gui.setScreen(Screens.SUMMARY);
+    }
+
+    public void endRound() {
+        this.timer.stop();
         gui.setScreen(Screens.END);
     }
 
     public void continueGame() {
-        if (currentRound <= roundNum) {
+        if (currentRound < roundNum) {
             this.resetGame();
             this.resumeGame();
             currentRound++;
@@ -156,7 +161,8 @@ public class Model implements ActionListener {
 
     private void resetGame() {
         timeSurvived = 0;
-        // ship.resetPosition();
+        ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
+        ;
         meteors.clear();
     }
 

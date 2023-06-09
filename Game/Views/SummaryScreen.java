@@ -6,19 +6,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Game.Model;
-import Game.Controllers.ContinueController;
 
-public class EndGameScreen extends JPanel {
+public class SummaryScreen extends JPanel {
 
     private Model model;
     private JLabel info;
-    private JButton proceed;
+    private JButton playAgain;
 
-    public EndGameScreen() {
+    public SummaryScreen() {
         model = Model.getInstance();
-
         info = new JLabel();
-        proceed = new JButton("Continue");
+        playAgain = new JButton();
 
         this.layoutView();
         this.registerControllers();
@@ -28,16 +26,14 @@ public class EndGameScreen extends JPanel {
     private void layoutView() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(info);
-        this.add(proceed);
+        this.add(playAgain);
     }
 
     private void registerControllers() {
-        ContinueController continueController = new ContinueController();
-        proceed.addActionListener(continueController);
     }
 
     public void update() {
-        info.setText(Double.toString(model.getTimeSurvived()));
+        this.info.setText("among us");
     }
 
 }
