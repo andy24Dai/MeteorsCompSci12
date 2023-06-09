@@ -132,22 +132,4 @@ public class Ship extends ColliderObject {
                 this.getVelocity().getAngleAbs(), isInBoundsX());
     }
 
-    private int isInBoundsY() {
-        if (this.getTopY() <= 0) {
-            return GameConstants.UP;
-        } else if (this.getBottomY() >= GameConstants.DISPLAY_HEIGHT) {
-            return GameConstants.DOWN;
-        }
-        return 0;
-    }
-
-    private int isInBoundsX() {
-        if (this.getRightX() <= 0) {
-            return GameConstants.LEFT;
-        } else if (this.getLeftX() >= GameConstants.DISPLAY_WIDTH) {
-            return GameConstants.RIGHT;
-        }
-        return 0;
-    }
-
 }// class

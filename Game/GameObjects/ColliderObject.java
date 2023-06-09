@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 
 public class ColliderObject {
@@ -102,6 +103,24 @@ public class ColliderObject {
         return this.getLeftX() <= obj.getRightX() &&
                 this.getRightX() >= obj.getLeftX() && this.getTopY() <= obj.getBottomY() &&
                 this.getBottomY() >= obj.getTopY();
+    }
+
+    public int isInBoundsY() {
+        if (this.getTopY() <= 0) {
+            return GameConstants.UP;
+        } else if (this.getBottomY() >= GameConstants.DISPLAY_HEIGHT) {
+            return GameConstants.DOWN;
+        }
+        return 0;
+    }
+
+    public int isInBoundsX() {
+        if (this.getRightX() <= 0) {
+            return GameConstants.LEFT;
+        } else if (this.getLeftX() >= GameConstants.DISPLAY_WIDTH) {
+            return GameConstants.RIGHT;
+        }
+        return 0;
     }
 
 }
