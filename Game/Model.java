@@ -10,6 +10,8 @@ import javax.swing.Timer;
 import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
 import Game.Util.GameConstants;
+import Game.Util.Prompt;
+import Game.Util.Vector2D;
 import Game.View.Screens;
 
 public class Model implements ActionListener {
@@ -93,10 +95,6 @@ public class Model implements ActionListener {
         return roundNum;
     }
 
-    public Screens getCurrentScreen() {
-        return gui.getCurrentScreen();
-    }
-
     public double[] getTimes() {
         return times;
     }
@@ -155,8 +153,10 @@ public class Model implements ActionListener {
     private void spawnMeteors(double dt) {
         if (timeSurvived > 3 && timeSinceLastMeteor > GameConstants.METEOR_SPAWN_RATE_SECONDS) {
             Meteor newMeteor = new Meteor((int) (Math.random() * (GameConstants.DISPLAY_WIDTH)), 0);
-            double vy = Math.random() * (200) + 100;
-            double vx = Math.random() * (20) - 10;
+            double vy = Math.random() * (GameConstants.METEOR_VY_MAX - GameConstants.METEOR_VY_MIN)
+                    + GameConstants.METEOR_VY_MIN;
+            double vx = Math.random() * (GameConstants.METEOR_VX_MAX - GameConstants.METEOR_VX_MIN)
+                    + GameConstants.METEOR_VX_MIN;
             newMeteor.setVelocity(vx, vy);
             meteors.add(newMeteor);
             timeSinceLastMeteor = 0;
@@ -223,8 +223,7 @@ public class Model implements ActionListener {
     private void resetGame() {
         timeSurvived = 0;
         this.currentTime = System.currentTimeMillis();
-        ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
-        ship.setVelocity(0, 0);
+        ship.reset();
         meteors.clear();
     }
 

@@ -1,10 +1,10 @@
 ******************** Game Summary ********************
 
 Round 1:
-Time survived: 6.35 s
-Meteors Dodged: 1
+Time survived: 22.80 s
+Meteors Dodged: 61
 
 Average:
-Time survived: 6.35 s
-Meteors Dodged: 1
+Time survived: 22.80 s
+Meteors Dodged: 61
 

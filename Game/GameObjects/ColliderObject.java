@@ -1,5 +1,11 @@
 package Game.GameObjects;
 
+/*  ColliderObject
+ *  Andy Dai
+ *  June 12 2023
+ *  object that can collide and move
+ */
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,11 +16,13 @@ import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 
 public class ColliderObject {
-    private Vector2D position;
-    private Vector2D velocity;
 
-    protected BufferedImage icon;
+    private Vector2D position; // position of the object
+    private Vector2D velocity; // velocity of the object
 
+    protected BufferedImage icon; // icon of the image
+
+    // constructor
     public ColliderObject(Vector2D pos, String imagePath) {
         position = pos;
         velocity = new Vector2D();
@@ -91,6 +99,8 @@ public class ColliderObject {
     }
 
     // ************* other *************
+
+    // adds displacement to position based on velocity and time
     public void updatePosition(double dt) {
         Vector2D deltaPos = new Vector2D();
         deltaPos.setX(Math.ceil(Math.abs(velocity.getX() * dt)) * Math.signum(velocity.getX()));
@@ -98,6 +108,7 @@ public class ColliderObject {
         position.add(deltaPos);
     }
 
+    // checks if objects are colliding
     public boolean isColliding(ColliderObject obj) {
 
         return this.getLeftX() <= obj.getRightX() &&
@@ -105,6 +116,7 @@ public class ColliderObject {
                 this.getBottomY() >= obj.getTopY();
     }
 
+    // checks if object is in bounds in the y-axis
     public int isInBoundsY() {
         if (this.getTopY() <= 0) {
             return GameConstants.UP;
@@ -114,6 +126,7 @@ public class ColliderObject {
         return 0;
     }
 
+    // checks if object is in bounds in the x-axis
     public int isInBoundsX() {
         if (this.getRightX() <= 0) {
             return GameConstants.LEFT;
@@ -123,4 +136,4 @@ public class ColliderObject {
         return 0;
     }
 
-}
+}// class

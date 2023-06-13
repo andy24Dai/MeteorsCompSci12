@@ -1,5 +1,11 @@
 package Game.Controllers;
 
+/*  StartMenuController
+ *  Andy Dai
+ *  June 12 2023
+ *  controller for start button of StartMenu
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,11 +18,13 @@ public class StartMenuController implements ActionListener {
     private Model model;
     private JTextField numRounds;
 
+    // constructor
     public StartMenuController(JTextField input) {
         model = Model.getInstance();
         numRounds = input;
     }
 
+    // gets round num from text field
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -25,6 +33,7 @@ public class StartMenuController implements ActionListener {
 
         } catch (NumberFormatException ex) {
             numRounds.setText("Invalid");
+            numRounds.selectAll();
         }
     }
 

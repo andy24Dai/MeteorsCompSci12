@@ -1,9 +1,16 @@
 package Game.Util;
 
+/*  Vector2D
+ *  Andy Dai
+ *  June 12 2023
+ *  stores information and methods relating to 2D vector operations
+ */
+
 public class Vector2D {
     private double x;
     private double y;
 
+    // constructors
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
@@ -13,6 +20,7 @@ public class Vector2D {
         this(0, 0);
     }
 
+    // getters
     public double getX() {
         return x;
     }
@@ -21,10 +29,12 @@ public class Vector2D {
         return y;
     }
 
+    // returns the angle of the vector ranging between 0 and pi radians
     public double getAngleAbs() {
         return Math.atan(Math.abs(y / x));
     }
 
+    // setters
     public void setX(double x) {
         this.x = x;
     }
@@ -38,6 +48,7 @@ public class Vector2D {
         this.setY(y);
     }
 
+    // vector operations
     public void add(Vector2D v) {
         this.setX(this.getX() + v.getX());
         this.setY(this.getY() + v.getY());
@@ -62,4 +73,4 @@ public class Vector2D {
         // TODO Auto-generated method stub
         return "(" + x + ", " + y + ")";
     }
-}
+} // class

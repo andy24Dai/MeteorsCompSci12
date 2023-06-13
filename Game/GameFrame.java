@@ -8,13 +8,14 @@ public class GameFrame extends JFrame {
     Model model;
     View gui;
 
+    // constructor
     public GameFrame() {
         super("Game");
 
         model = Model.getInstance();
         gui = View.getInstance();
 
-        ExitController.getInstance().setFrameInstance(this); // sets ExitController frame reference to the object
+        ExitController.getInstance().setFrameInstance(this); // sets ExitController frame reference to this
 
         this.setContentPane(gui);
         this.pack();

@@ -1,5 +1,11 @@
 package Game.Controllers;
 
+/*  ShipController
+ *  Andy Dai
+ *  June 12 2023
+ *  controller for the ship
+ */
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import Game.GameObjects.Ship;
@@ -25,19 +31,19 @@ public class ShipController implements KeyListener {
         int key = e.getKeyCode();
 
         switch (key) {
-            case KeyEvent.VK_D:
+            case KeyEvent.VK_D: // D
                 latestMoveX = KeyEvent.VK_D;
                 ship.setAccelX(GameConstants.RIGHT);
                 break;
-            case KeyEvent.VK_A:
+            case KeyEvent.VK_A: // A
                 latestMoveX = KeyEvent.VK_A;
                 ship.setAccelX(GameConstants.LEFT);
                 break;
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_W: // W
                 latestMoveY = KeyEvent.VK_W;
                 ship.setAccelY(GameConstants.UP);
                 break;
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_S: // S
                 latestMoveY = KeyEvent.VK_S;
                 ship.setAccelY(GameConstants.DOWN);
                 break;
@@ -46,6 +52,7 @@ public class ShipController implements KeyListener {
         }
     }
 
+    // sets v to 0 if latest key pressed is released
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();

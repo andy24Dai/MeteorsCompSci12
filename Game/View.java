@@ -25,8 +25,7 @@ public class View extends JPanel {
     private CardLayout cardLayout;
     private JPanel switchPanel;
 
-    private Screens currentScreen;
-
+    // states the screen can be in
     public enum Screens {
         GAME,
         START,
@@ -57,13 +56,10 @@ public class View extends JPanel {
         switchPanel = new JPanel();
         cardLayout = new CardLayout();
 
-        currentScreen = Screens.START;
-
         this.layoutView();
         this.registerControllers();
-        this.update();
 
-    }
+    }// constructor
 
     // adds components to itself
     private void layoutView() {
@@ -75,8 +71,7 @@ public class View extends JPanel {
         switchPanel.add("Summary", summary);
 
         this.add(switchPanel);
-
-        this.setScreen(currentScreen);
+        this.setScreen(Screens.START);
 
     }// layoutView
 
@@ -89,47 +84,37 @@ public class View extends JPanel {
         game.update();
     }
 
-    // ************ GETTERS **************
-
-    public Screens getCurrentScreen() {
-        return currentScreen;
-    }
-
     // ************ SETTERS **************
 
+    // sets screen to be displayed
     public void setScreen(Screens sc) {
         switch (sc) {
             case GAME:
                 this.cardLayout.show(switchPanel, "Game");
                 game.requestFocusInWindow();
-                this.currentScreen = Screens.GAME;
                 break;
 
             case START:
                 this.cardLayout.show(switchPanel, "Start");
-                this.currentScreen = Screens.START;
                 break;
 
             case PAUSE:
                 this.cardLayout.show(switchPanel, "Pause");
-                this.currentScreen = Screens.PAUSE;
                 break;
 
             case END:
                 this.cardLayout.show(switchPanel, "End");
                 this.end.update();
-                this.currentScreen = Screens.END;
                 break;
 
             case SUMMARY:
                 this.cardLayout.show(switchPanel, "Summary");
                 this.summary.update();
-                this.currentScreen = Screens.SUMMARY;
                 break;
             default:
                 break;
-        }
+        }// switch
 
-    }
+    }// setScreen
 
 }// class

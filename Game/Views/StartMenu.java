@@ -1,5 +1,11 @@
 package Game.Views;
 
+/*  StartMenu
+ *  Andy Dai
+ *  June 12 2023
+ *  Screen that shows when the game starts
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -18,6 +24,7 @@ public class StartMenu extends JPanel {
     private JTextField numRounds;
     private JButton start;
 
+    // constructor
     public StartMenu() {
         model = Model.getInstance();
 
@@ -29,9 +36,9 @@ public class StartMenu extends JPanel {
 
         this.layoutView();
         this.registerControllers();
-        this.update();
-    }
+    }// constructor
 
+    // adds components to itself
     private void layoutView() {
         this.setLayout(new BorderLayout());
         this.add(roundsLabel, BorderLayout.WEST);
@@ -39,12 +46,10 @@ public class StartMenu extends JPanel {
         this.add(start, BorderLayout.SOUTH);
     }
 
+    // sets up controllers
     private void registerControllers() {
         StartMenuController controller = new StartMenuController(numRounds);
         start.addActionListener(controller);
-    }
-
-    private void update() {
     }
 
 }

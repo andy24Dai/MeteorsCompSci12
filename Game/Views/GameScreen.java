@@ -1,8 +1,15 @@
 package Game.Views;
 
+/*  GameScreen
+ *  Andy Dai
+ *  June 12 2023
+ *  Screen that shows when the game is active
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -19,7 +26,6 @@ public class GameScreen extends JPanel {
     private Model model;
     private JGameDisplay display;
     private JLabel info;
-    private JLabel roundNum;
 
     // constructor
     public GameScreen() {
@@ -28,12 +34,12 @@ public class GameScreen extends JPanel {
         display = new JGameDisplay(model, GameConstants.DISPLAY_WIDTH, GameConstants.DISPLAY_HEIGHT);
         info = new JLabel();
         info.setPreferredSize(new Dimension(50, 100));
-        // info.setFont(new Font(Font.MONOSPACED,));
+        info.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 25));
 
         this.layoutView();
         this.registerControllers();
-        this.update();
-    }
+        // this.update();
+    }// constructor
 
     // adds components to itself
     private void layoutView() {
@@ -44,7 +50,7 @@ public class GameScreen extends JPanel {
         this.add(display, BorderLayout.CENTER);
     }// layoutView
 
-    // sets up controllers for button
+    // sets up controllers
     private void registerControllers() {
         ShipController shipControl = new ShipController(model.getShip());
         this.addKeyListener(shipControl);
@@ -59,6 +65,5 @@ public class GameScreen extends JPanel {
         info.setText(
                 String.format("Time: %-6.2f             Round: %-4d            Esc to pause", model.getTimeSurvived(),
                         model.getCurrentRound()));
-        // model.getShip().printInfo();
     }
 }

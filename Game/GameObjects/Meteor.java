@@ -1,5 +1,11 @@
 package Game.GameObjects;
 
+/*  Meteor
+ *  Andy Dai
+ *  June 12 2023
+ *  meteor object
+ */
+
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
@@ -8,12 +14,13 @@ import Game.Util.Vector2D;
 
 public class Meteor extends ColliderObject {
 
+    // constructor
     public Meteor(int x, int y) {
         super(new Vector2D(x, y), "Game/Sprites/meteor.png");
-        this.setVelocity(0, 200);
         rotateImage();
     }
 
+    // in bounds but only true when the icon is fully off screen
     @Override
     public int isInBoundsY() {
         if (this.getBottomY() <= 0) {
@@ -32,6 +39,6 @@ public class Meteor extends ColliderObject {
         AffineTransformOp op = new AffineTransformOp(tx,
                 AffineTransformOp.TYPE_BILINEAR);
         icon = op.filter(icon, null);
-
     }
-}
+
+}// class
