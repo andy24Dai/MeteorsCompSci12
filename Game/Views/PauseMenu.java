@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import Game.Model;
 import Game.Controllers.ExitController;
-import Game.Controllers.PauseController;
 import Game.Controllers.ResumeController;
 
 public class PauseMenu extends JPanel {
@@ -31,13 +30,10 @@ public class PauseMenu extends JPanel {
     }
 
     private void registerControllers() {
-        this.addKeyListener(PauseController.getInstance());
-
         ResumeController resumeControl = new ResumeController(resume);
         resume.addActionListener(resumeControl);
 
-        ExitController exitController = new ExitController();
-        exit.addActionListener(exitController);
+        exit.addActionListener(ExitController.getInstance());
     }
 
     private void update() {

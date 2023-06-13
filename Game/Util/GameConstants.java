@@ -1,14 +1,12 @@
 package Game.Util;
 
 public class GameConstants {
-    public static final int SPEED_PIXEL_PER_FRAME = 10;
-    public static final int ACCEL_PIXEL_PER_FRAME_SQUARED = 1;
-    public static final int DECCEL_PIXEL_PER_FRAME_SQUARED = 1;
     public static final int REFRESH_RATE_MILISECONDS = 10;
+    public static final double METEOR_SPAWN_RATE_SECONDS = 0.25;
 
     public static final int SPEED_PIXEL_PER_SECOND = 700;
     public static final int ACCEL_PIXEL_PER_SECOND_SQUARED = 2000;
-    public static final int DECCEL_PIXEL_PER_SECOND_SQUARED = 1000;
+    public static final int DECCEL_PIXEL_PER_SECOND_SQUARED = 1500;
 
     public static final int LEFT = -1;
     public static final int RIGHT = 1;

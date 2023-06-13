@@ -3,10 +3,8 @@ package Game.Views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -51,15 +49,16 @@ public class GameScreen extends JPanel {
         ShipController shipControl = new ShipController(model.getShip());
         this.addKeyListener(shipControl);
 
-        // PauseController pauseControl = new PauseController();
-        this.addKeyListener(PauseController.getInstance());
+        PauseController pauseControl = new PauseController();
+        this.addKeyListener(pauseControl);
     }
 
     // updates gui
     public void update() {
         display.repaint();
-        info.setText(String.format("Time: %-6.2f             Round: %-4d", model.getTimeSurvived(),
-                model.getCurrentRound()));
+        info.setText(
+                String.format("Time: %-6.2f             Round: %-4d            Esc to pause", model.getTimeSurvived(),
+                        model.getCurrentRound()));
         // model.getShip().printInfo();
     }
 }

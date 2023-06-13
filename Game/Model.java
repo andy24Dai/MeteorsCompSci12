@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
@@ -30,8 +31,13 @@ public class Model implements ActionListener {
     // time
     private double timeSurvived;
     private Timer timer;
+    private double timeSinceLastMeteor;
     private long prevTime;
     private long currentTime;
+
+    // game Scores
+    private double[] times;
+    private int[] meteorsDodged;
 
     // ************ METHODS **************
 
@@ -47,12 +53,12 @@ public class Model implements ActionListener {
 
         meteors = new ArrayList<Meteor>();
         removeMeteors = new ArrayList<Meteor>();
-        meteors.add(new Meteor(200, 0));
-        meteors.add(new Meteor(600, 0));
 
         timer = new Timer(GameConstants.REFRESH_RATE_MILISECONDS, this);
+        timer.stop();
 
         timeSurvived = 0;
+        timeSinceLastMeteor = 0;
 
         currentRound = 1;
 
@@ -83,8 +89,20 @@ public class Model implements ActionListener {
         return currentRound;
     }
 
+    public int getRoundNum() {
+        return roundNum;
+    }
+
     public Screens getCurrentScreen() {
         return gui.getCurrentScreen();
+    }
+
+    public double[] getTimes() {
+        return times;
+    }
+
+    public int[] getMeteorsDodged() {
+        return meteorsDodged;
     }
 
     // ************ SETTERS **************
@@ -106,6 +124,7 @@ public class Model implements ActionListener {
         ship.moveShip(dt);
         updateMeteors(dt);
         checkMeteorCollisions();
+        spawnMeteors(dt);
 
         timeSurvived += dt;
 
@@ -122,30 +141,40 @@ public class Model implements ActionListener {
         for (Meteor meteor : meteors) {
             if (meteor.isInBoundsY() != 0) {
                 removeMeteors.add(meteor);
+                meteorsDodged[currentRound - 1]++;
             } else if (ship.isColliding(meteor)) {
                 this.endRound();
             }
-
-            System.out.print(meteor);
         }
 
         for (Meteor meteor : removeMeteors) {
             meteors.remove(meteor);
         }
-        System.out.println("");
     }
 
-    private void spawnMeteors() {
+    private void spawnMeteors(double dt) {
+        if (timeSurvived > 3 && timeSinceLastMeteor > GameConstants.METEOR_SPAWN_RATE_SECONDS) {
+            Meteor newMeteor = new Meteor((int) (Math.random() * (GameConstants.DISPLAY_WIDTH)), 0);
+            double vy = Math.random() * (200) + 100;
+            double vx = Math.random() * (20) - 10;
+            newMeteor.setVelocity(vx, vy);
+            meteors.add(newMeteor);
+            timeSinceLastMeteor = 0;
+        } else {
+            timeSinceLastMeteor += dt;
+        }
 
     }
 
     // ************ GAME STATE CONTROL **************
 
-    public void startGame(int num) {
-        this.setRoundNum(num);
+    public void startGame(int numRounds) {
+        resetGame();
+        this.setRoundNum(numRounds);
+        times = new double[numRounds];
+        meteorsDodged = new int[numRounds];
         gui.setScreen(Screens.GAME);
         this.timer.start();
-
     }
 
     public void pauseGame() {
@@ -163,11 +192,12 @@ public class Model implements ActionListener {
     public void endGame() {
         gui.setScreen(Screens.SUMMARY);
         this.timer.stop();
-        gui.setScreen(Screens.SUMMARY);
+        outputData();
     }
 
     public void endRound() {
         gui.setScreen(Screens.END);
+        times[currentRound - 1] = timeSurvived;
         this.timer.stop();
     }
 
@@ -181,13 +211,21 @@ public class Model implements ActionListener {
         }
     }
 
+    public void restartGame() {
+        this.resetGame();
+        timeSurvived = 0;
+        timeSinceLastMeteor = 0;
+
+        currentRound = 1;
+        gui.setScreen(Screens.START);
+    }
+
     private void resetGame() {
         timeSurvived = 0;
+        this.currentTime = System.currentTimeMillis();
         ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
-        ;
+        ship.setVelocity(0, 0);
         meteors.clear();
-        ship.setPosition(GameConstants.DISPLAY_WIDTH / 2, GameConstants.DISPLAY_HEIGHT / 2);
-        // meteors.clear();
     }
 
     // ************ OTHER **************
@@ -195,6 +233,50 @@ public class Model implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         updateView();
+    }
+
+    // writes game data to output.txt
+    public void outputData() {
+
+        PrintWriter writer = Prompt.getPrintWriter("Game/output.txt");
+
+        writer.println("******************** Game Summary ********************\n");
+
+        // round data
+        for (int i = 0; i < roundNum; i++) {
+            writer.println("Round " + (i + 1) + ":");
+            writer.printf("Time survived: %.2f s\n", times[i]);
+            writer.printf("Meteors Dodged: %d\n\n", meteorsDodged[i]);
+        }
+
+        // average data
+        writer.println("Average:");
+        writer.printf("Time survived: %.2f s\n", getAverage(times));
+        writer.printf("Meteors Dodged: %d\n\n", getAverage(meteorsDodged));
+
+        writer.close();
+    }
+
+    public double getAverage(double[] arr) {
+        double avg = 0;
+        for (double num : arr) {
+            avg += num;
+        }
+
+        avg /= arr.length;
+
+        return avg;
+    }
+
+    public int getAverage(int[] arr) {
+        int avg = 0;
+        for (int num : arr) {
+            avg += num;
+        }
+
+        avg /= arr.length;
+
+        return avg;
     }
 
 }// class

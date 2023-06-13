@@ -9,11 +9,9 @@ import Game.Model;
 public class ResumeController implements ActionListener {
 
     private Model model;
-    private JButton resume;
 
     public ResumeController(JButton resumeButton) {
         model = Model.getInstance();
-        resume = resumeButton;
     }
 
     @Override

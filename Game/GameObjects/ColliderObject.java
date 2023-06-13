@@ -13,7 +13,7 @@ public class ColliderObject {
     private Vector2D position;
     private Vector2D velocity;
 
-    private BufferedImage icon;
+    protected BufferedImage icon;
 
     public ColliderObject(Vector2D pos, String imagePath) {
         position = pos;

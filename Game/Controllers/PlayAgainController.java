@@ -5,17 +5,17 @@ import java.awt.event.ActionListener;
 
 import Game.Model;
 
-public class ContinueController implements ActionListener {
+public class PlayAgainController implements ActionListener {
 
     private Model model;
 
-    public ContinueController() {
+    public PlayAgainController() {
         model = Model.getInstance();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        model.continueGame();
+        model.restartGame();
     }
 
 }

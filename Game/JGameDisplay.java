@@ -2,29 +2,35 @@ package Game;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.Timer;
-import javax.swing.text.Position;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import Game.GameObjects.ColliderObject;
 import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
-import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 
 public class JGameDisplay extends JComponent {
     private Model model;
     private Ship ship;
+    private BufferedImage background;
 
     public JGameDisplay(Model m, int w, int h) {
         super();
         model = m;
         ship = model.getShip();
-        ship.setPosition(w / 2, h / 2);
+
+        try {
+            background = ImageIO.read(new File("Game/Sprites/background.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         this.setPreferredSize(new Dimension(w, h));
     }
 
@@ -33,6 +39,7 @@ public class JGameDisplay extends JComponent {
         // TODO Auto-generated method stub
         super.paintComponent(g);
 
+        g.drawImage(background, 0, 0, null);
         drawObject(g, ship);
         drawMeteors(g);
 

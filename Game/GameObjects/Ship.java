@@ -1,10 +1,5 @@
 package Game.GameObjects;
 
-import java.io.File;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-
 import Game.Util.GameConstants;
 import Game.Util.Vector2D;
 
@@ -18,7 +13,7 @@ public class Ship extends ColliderObject {
     // ************* constructor *************
     public Ship(int x, int y) {
         // set shipPos
-        super(new Vector2D(x, y), "Game/Sprites/eyeBot.png");
+        super(new Vector2D(x, y), "Game/Sprites/ship.png");
 
     }// constructor
 

@@ -3,7 +3,7 @@ package Game;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
-import Game.Views.EndGameScreen;
+import Game.Views.EndRoundScreen;
 import Game.Views.GameScreen;
 import Game.Views.PauseMenu;
 import Game.Views.StartMenu;
@@ -19,7 +19,7 @@ public class View extends JPanel {
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
-    private EndGameScreen end;
+    private EndRoundScreen end;
     private SummaryScreen summary;
 
     private CardLayout cardLayout;
@@ -51,7 +51,7 @@ public class View extends JPanel {
         game = new GameScreen();
         start = new StartMenu();
         pause = new PauseMenu();
-        end = new EndGameScreen();
+        end = new EndRoundScreen();
         summary = new SummaryScreen();
 
         switchPanel = new JPanel();
@@ -103,7 +103,6 @@ public class View extends JPanel {
                 this.cardLayout.show(switchPanel, "Game");
                 game.requestFocusInWindow();
                 this.currentScreen = Screens.GAME;
-
                 break;
 
             case START:

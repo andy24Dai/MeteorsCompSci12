@@ -8,17 +8,9 @@ import Game.View.Screens;
 
 public class PauseController implements KeyListener {
 
-    private static PauseController mInstance;
     private Model model;
 
-    public static PauseController getInstance() {
-        if (mInstance == null) {
-            mInstance = new PauseController();
-        }
-        return mInstance;
-    }
-
-    private PauseController() {
+    public PauseController() {
         model = Model.getInstance();
     }
 
