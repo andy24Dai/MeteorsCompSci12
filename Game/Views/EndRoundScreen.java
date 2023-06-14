@@ -40,6 +40,7 @@ public class EndRoundScreen extends JPanel {
         meteors = new JLabel();
         meteors.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 40));
 
+        // utton
         proceed = new JButton("Continue");
         proceed.setMaximumSize(new Dimension(200, 100));
 
@@ -49,6 +50,7 @@ public class EndRoundScreen extends JPanel {
 
     // adds components to itself
     private void layoutView() {
+        // format text
         JPanel info = new JPanel();
         BoxLayout boxLayout = new BoxLayout(info, BoxLayout.Y_AXIS);
         info.setLayout(boxLayout);
@@ -58,6 +60,7 @@ public class EndRoundScreen extends JPanel {
         info.add(Box.createRigidArea(new Dimension(0, 10)));
         info.add(meteors);
 
+        // add components to screen
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(info);
         this.add(Box.createRigidArea(new Dimension(0, 100)));
@@ -76,4 +79,4 @@ public class EndRoundScreen extends JPanel {
         meteors.setText(String.format("Meteors Dodged: %d", model.getMeteorsDodged()[model.getCurrentRound() - 1]));
     }
 
-}
+}// class

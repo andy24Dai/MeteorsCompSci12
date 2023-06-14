@@ -34,11 +34,12 @@ public class PauseMenu extends JPanel {
 
         this.layoutView();
         this.registerControllers();
-        this.update();
     }// constructor
 
     // adds components to itself
     private void layoutView() {
+
+        // add components to screen
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
         this.add(resume);
@@ -54,7 +55,4 @@ public class PauseMenu extends JPanel {
         exit.addActionListener(ExitController.getInstance());
     }
 
-    private void update() {
-    }
-
-}
+}// class

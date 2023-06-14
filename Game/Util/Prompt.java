@@ -1,5 +1,11 @@
 package Game.Util;
 
+/*  Prompt
+ *  Andy Dai
+ *  June 12 2023
+ *  class to help with user and file input/output
+ */
+
 import java.io.*;
 import java.util.*;
 

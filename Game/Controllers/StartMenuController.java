@@ -24,17 +24,18 @@ public class StartMenuController implements ActionListener {
         numRounds = input;
     }
 
-    // gets round num from text field
+    // gets round num from text field when action is detected
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
             int num = Integer.parseInt(numRounds.getText());
             model.startGame(num);
 
-        } catch (NumberFormatException ex) {
+        } // try
+        catch (NumberFormatException ex) {
             numRounds.setText("Invalid");
             numRounds.selectAll();
-        }
+        } // catch
     }
 
-}
+}// class

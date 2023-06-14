@@ -18,7 +18,6 @@ public class Ship extends ColliderObject {
 
     // ************* constructor *************
     public Ship(int x, int y) {
-        // set shipPos
         super(new Vector2D(x, y), "Game/Sprites/ship.png");
 
     }// constructor
@@ -46,6 +45,7 @@ public class Ship extends ColliderObject {
     // ************* kinematics *************
     public void moveShip(double deltaT) {
         // ----------- x -----------
+        // accelerates if accelX is not 0 and deccelerates if no input
         if (accelX != 0) {
             accelVx(accelX, deltaT);
         } // if
@@ -63,6 +63,7 @@ public class Ship extends ColliderObject {
 
         // set ship pos to along the edge of the screen if the ship goes out of bounds
         if (isInBoundsY() == 0) { // if ship is in bounds y
+            // accelerates if accelY is not 0 and deccelerates if no input
             if (accelY != 0) {
                 accelVy(accelY, deltaT);
             } else {
@@ -71,9 +72,9 @@ public class Ship extends ColliderObject {
         } // if
 
         else { // if ship is out of bounds y
-            if (accelY == -isInBoundsY()) {
+            if (accelY == -isInBoundsY()) { // if ship is accelerating in the opposite direction of the border
                 accelVy(accelY, deltaT);
-            } else {
+            } else { // set y velocity to 0 and position to the border
                 this.setVelocity(this.getVelocity().getX(), 0);
                 this.setPosition(this.getPosition().getX(),
                         (isInBoundsY() == GameConstants.UP) ? 0 + this.getIconSize()[1] / 2
@@ -89,22 +90,23 @@ public class Ship extends ColliderObject {
 
     // accelerates ship in the x direction
     public void accelVx(int dir, double deltaT) {
-
+        // if velocity is max and acceleration direction is equal to current velocity
         if (Math.abs(this.getVelocity().getX()) >= GameConstants.SPEED_PIXEL_PER_SECOND
                 && Math.signum(this.getVelocity().getX()) == dir) {
             this.getVelocity().setX(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
-        } else {
+        } // if
+        else { // velocity is not max
             this.getVelocity().setX(
                     (int) (this.getVelocity().getX() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
-        }
-
+        } // else
     }
 
     // deccelerates ship in the x direction
     public void deccelVx(double deltaT) {
         double deccel = GameConstants.DECCEL_PIXEL_PER_SECOND_SQUARED
-                * Math.cos(this.getVelocity().getAngleAbs()) * deltaT;
+                * Math.cos(this.getVelocity().getAngleAbs()) * deltaT; // x component of the velocity
 
+        // if velocity is greater than decceleration rate
         if (Math.abs(this.getVelocity().getX()) >= deccel) {
             this.getVelocity().setX((int) (this.getVelocity().getX()
                     - Math.signum(this.getVelocity().getX()) * deccel));
@@ -115,10 +117,11 @@ public class Ship extends ColliderObject {
 
     // accelerates ship in the y direction
     public void accelVy(int dir, double deltaT) {
+        // if velocity is max and acceleration direction is equal to current velocity
         if (Math.abs(this.getVelocity().getY()) >= GameConstants.SPEED_PIXEL_PER_SECOND
                 && Math.signum(this.getVelocity().getY()) == dir) {
             this.getVelocity().setY(dir * GameConstants.SPEED_PIXEL_PER_SECOND);
-        } else {
+        } else { // velocity is not max
             this.getVelocity().setY(
                     (int) (this.getVelocity().getY() + dir * deltaT * GameConstants.ACCEL_PIXEL_PER_SECOND_SQUARED));
         }
@@ -127,8 +130,9 @@ public class Ship extends ColliderObject {
     // deccelerates ship in the y direction
     public void deccelVy(double deltaT) {
         double deccel = GameConstants.DECCEL_PIXEL_PER_SECOND_SQUARED
-                * Math.sin(this.getVelocity().getAngleAbs()) * deltaT;
+                * Math.sin(this.getVelocity().getAngleAbs()) * deltaT; // y component of the velocity
 
+        // if velocity is greater than decceleration rate
         if (Math.abs(this.getVelocity().getY()) >= deccel) {
             this.getVelocity().setY((int) (this.getVelocity().getY()
                     - Math.signum(this.getVelocity().getY()) * deccel));

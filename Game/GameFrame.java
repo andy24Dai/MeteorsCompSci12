@@ -1,5 +1,11 @@
 package Game;
 
+/*  GameFrame
+ *  Andy Dai
+ *  June 12 2023
+ *  Modified frame that sets up the game
+ */
+
 import javax.swing.JFrame;
 
 import Game.Controllers.ExitController;
@@ -24,4 +30,4 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
     }
 
-}
+}// class

@@ -20,7 +20,7 @@ public class ColliderObject {
     private Vector2D position; // position of the object
     private Vector2D velocity; // velocity of the object
 
-    protected BufferedImage icon; // icon of the image
+    protected BufferedImage icon; // icon of the object
 
     // constructor
     public ColliderObject(Vector2D pos, String imagePath) {
@@ -52,18 +52,22 @@ public class ColliderObject {
         return velocity.getAngleAbs();
     }
 
+    // returns leftmost x value of the icon when drawn
     public int getLeftX() {
         return (int) (position.getX() - getIconSize()[0] / 2);
     }
 
+    // returns rightmost x value of the icon when drawn
     public int getRightX() {
         return (int) (position.getX() + getIconSize()[0] / 2);
     }
 
+    // returns top y value of the icon when drawn
     public int getTopY() {
         return (int) (position.getY() - getIconSize()[1] / 2);
     }
 
+    // returns bottom y value of the icon when drawn
     public int getBottomY() {
         return (int) (position.getY() + getIconSize()[1] / 2);
     }
@@ -88,12 +92,12 @@ public class ColliderObject {
         velocity.setY(y);
     }
 
+    // sets icon to specified image
     private void setIcon(String path) {
         // get Icon
         try {
-            icon = ImageIO.read(new File(path)); // "Game/Sprites/eyeBot.png"
+            icon = ImageIO.read(new File(path));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -110,7 +114,6 @@ public class ColliderObject {
 
     // checks if objects are colliding
     public boolean isColliding(ColliderObject obj) {
-
         return this.getLeftX() <= obj.getRightX() &&
                 this.getRightX() >= obj.getLeftX() && this.getTopY() <= obj.getBottomY() &&
                 this.getBottomY() >= obj.getTopY();

@@ -1,5 +1,11 @@
 package Game;
 
+/*  View
+ *  Andy Dai
+ *  June 12 2023
+ *  stores and updates graphical elements of the game
+ */
+
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 
@@ -16,12 +22,14 @@ public class View extends JPanel {
     private static View mView;
     private Model model;
 
+    // sub screens
     private GameScreen game;
     private StartMenu start;
     private PauseMenu pause;
     private EndRoundScreen end;
     private SummaryScreen summary;
 
+    // screen switching
     private CardLayout cardLayout;
     private JPanel switchPanel;
 
@@ -35,6 +43,7 @@ public class View extends JPanel {
     }
 
     // ************ METHODS **************
+    // get singleton instance
     public static View getInstance() {
         if (mView == null) {
             mView = new View();
@@ -57,7 +66,6 @@ public class View extends JPanel {
         cardLayout = new CardLayout();
 
         this.layoutView();
-        this.registerControllers();
 
     }// constructor
 
@@ -74,10 +82,6 @@ public class View extends JPanel {
         this.setScreen(Screens.START);
 
     }// layoutView
-
-    // sets up controllers for button
-    private void registerControllers() {
-    }
 
     // updates gui
     public void update() {
@@ -114,7 +118,6 @@ public class View extends JPanel {
             default:
                 break;
         }// switch
-
     }// setScreen
 
 }// class

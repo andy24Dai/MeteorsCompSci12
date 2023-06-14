@@ -20,7 +20,7 @@ public class Meteor extends ColliderObject {
         rotateImage();
     }
 
-    // in bounds but only true when the icon is fully off screen
+    // returns if icon is fully off screen
     @Override
     public int isInBoundsY() {
         if (this.getBottomY() <= 0) {

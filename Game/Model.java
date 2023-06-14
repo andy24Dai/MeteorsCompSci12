@@ -1,5 +1,11 @@
 package Game;
 
+/*  Model
+ *  Andy Dai
+ *  June 12 2023
+ *  stores and updates information about the game
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
@@ -11,14 +17,13 @@ import Game.GameObjects.Meteor;
 import Game.GameObjects.Ship;
 import Game.Util.GameConstants;
 import Game.Util.Prompt;
-import Game.Util.Vector2D;
 import Game.View.Screens;
 
 public class Model implements ActionListener {
 
     // ************ VARIABLES **************
 
-    private static Model mModel;
+    private static Model mModel; // singleton instance
     private View gui;
 
     // game objects
@@ -27,7 +32,7 @@ public class Model implements ActionListener {
     private ArrayList<Meteor> removeMeteors;
 
     // game states
-    private int roundNum;
+    private int roundNum; // number of rounds to play
     private int currentRound;
 
     // time
@@ -38,11 +43,12 @@ public class Model implements ActionListener {
     private long currentTime;
 
     // game Scores
-    private double[] times;
-    private int[] meteorsDodged;
+    private double[] times; // timer survived per round
+    private int[] meteorsDodged; // meteors dodged per round
 
     // ************ METHODS **************
 
+    // get singleton instance
     public static Model getInstance() {
         if (mModel == null) {
             mModel = new Model();
@@ -50,6 +56,7 @@ public class Model implements ActionListener {
         return mModel;
     }
 
+    // constructor
     private Model() {
         ship = new Ship(0, 0);
 
@@ -66,17 +73,20 @@ public class Model implements ActionListener {
 
         prevTime = 0;
         currentTime = System.currentTimeMillis();
-    }
+    }// constructor
 
     // ************ GETTERS **************
+    // returns array of meteors
     public ArrayList<Meteor> getMeteors() {
         return meteors;
     }
 
+    // returns ship object
     public Ship getShip() {
         return ship;
     }
 
+    // returns time past between frames
     public double getDeltaT() {
         prevTime = currentTime;
         currentTime = System.currentTimeMillis();
@@ -99,6 +109,7 @@ public class Model implements ActionListener {
         return times;
     }
 
+    //
     public int[] getMeteorsDodged() {
         return meteorsDodged;
     }
@@ -108,10 +119,6 @@ public class Model implements ActionListener {
     // sets gui reference
     public void setGUI(View g) {
         gui = g;
-    }
-
-    public void setRoundNum(int roundNum) {
-        this.roundNum = roundNum;
     }
 
     // ************ UPDATE **************
@@ -129,29 +136,35 @@ public class Model implements ActionListener {
         gui.update();
     }
 
+    // updates position of all meteors
     private void updateMeteors(double dt) {
         for (Meteor meteor : meteors) {
             meteor.updatePosition(dt);
         }
     }
 
+    // checks meteors for collision with ship, deletes meteors if not in view
     private void checkMeteorCollisions() {
         for (Meteor meteor : meteors) {
-            if (meteor.isInBoundsY() != 0) {
+            if (meteor.isInBoundsY() != 0) { // if meteor is out of bounds
                 removeMeteors.add(meteor);
                 meteorsDodged[currentRound - 1]++;
-            } else if (ship.isColliding(meteor)) {
-                this.endRound();
-            }
-        }
+            } // if
 
+            else if (ship.isColliding(meteor)) {
+                this.endRound();
+            } // else if
+        } // for
+
+        // remove meteors
         for (Meteor meteor : removeMeteors) {
             meteors.remove(meteor);
-        }
-    }
+        } // for
+    }// checkMeteorCollisions
 
+    // spawns meteor with a random velocity at a specified rate
     private void spawnMeteors(double dt) {
-        if (timeSurvived > 3 && timeSinceLastMeteor > GameConstants.METEOR_SPAWN_RATE_SECONDS) {
+        if (timeSurvived > 2 && timeSinceLastMeteor > GameConstants.METEOR_SPAWN_RATE_SECONDS) {
             Meteor newMeteor = new Meteor((int) (Math.random() * (GameConstants.DISPLAY_WIDTH)), 0);
             double vy = Math.random() * (GameConstants.METEOR_VY_MAX - GameConstants.METEOR_VY_MIN)
                     + GameConstants.METEOR_VY_MIN;
@@ -160,47 +173,53 @@ public class Model implements ActionListener {
             newMeteor.setVelocity(vx, vy);
             meteors.add(newMeteor);
             timeSinceLastMeteor = 0;
-        } else {
+        } // if
+        else {
             timeSinceLastMeteor += dt;
-        }
-
-    }
+        } // else
+    }// spawn meteors
 
     // ************ GAME STATE CONTROL **************
 
+    // starts game
     public void startGame(int numRounds) {
         resetGame();
-        this.setRoundNum(numRounds);
+        roundNum = numRounds;
         times = new double[numRounds];
         meteorsDodged = new int[numRounds];
         gui.setScreen(Screens.GAME);
         this.timer.start();
     }
 
+    // pauses game
     public void pauseGame() {
         gui.setScreen(Screens.PAUSE);
         this.timer.stop();
 
     }
 
+    // resumes game
     public void resumeGame() {
         this.currentTime = System.currentTimeMillis();
         gui.setScreen(Screens.GAME);
         this.timer.start();
     }
 
+    // ends game
     public void endGame() {
         gui.setScreen(Screens.SUMMARY);
         this.timer.stop();
         outputData();
     }
 
+    // ends round
     public void endRound() {
         gui.setScreen(Screens.END);
         times[currentRound - 1] = timeSurvived;
         this.timer.stop();
     }
 
+    // continues game if there are more rounds or ends game
     public void continueGame() {
         if (currentRound < roundNum) {
             this.resetGame();
@@ -211,6 +230,7 @@ public class Model implements ActionListener {
         }
     }
 
+    // restarts game
     public void restartGame() {
         this.resetGame();
         timeSurvived = 0;
@@ -220,6 +240,7 @@ public class Model implements ActionListener {
         gui.setScreen(Screens.START);
     }
 
+    // resets game info for new round
     private void resetGame() {
         timeSurvived = 0;
         this.currentTime = System.currentTimeMillis();
@@ -254,8 +275,9 @@ public class Model implements ActionListener {
         writer.printf("Meteors Dodged: %d\n\n", getAverage(meteorsDodged));
 
         writer.close();
-    }
+    }// outputData
 
+    // gets average value of arr
     public double getAverage(double[] arr) {
         double avg = 0;
         for (double num : arr) {
@@ -267,6 +289,7 @@ public class Model implements ActionListener {
         return avg;
     }
 
+    // gets average value of arr
     public int getAverage(int[] arr) {
         int avg = 0;
         for (int num : arr) {

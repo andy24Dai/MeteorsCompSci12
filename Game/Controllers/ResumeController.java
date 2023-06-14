@@ -21,9 +21,10 @@ public class ResumeController implements ActionListener {
         model = Model.getInstance();
     }
 
+    // resumes game when an action is detected
     @Override
     public void actionPerformed(ActionEvent e) {
         model.resumeGame();
     }
 
-}
+}// class

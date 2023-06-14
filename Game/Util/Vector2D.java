@@ -20,7 +20,7 @@ public class Vector2D {
         this(0, 0);
     }
 
-    // getters
+    // ********* getters *********
     public double getX() {
         return x;
     }
@@ -34,7 +34,7 @@ public class Vector2D {
         return Math.atan(Math.abs(y / x));
     }
 
-    // setters
+    // ********* setters ********* 
     public void setX(double x) {
         this.x = x;
     }
@@ -48,7 +48,7 @@ public class Vector2D {
         this.setY(y);
     }
 
-    // vector operations
+    // ********* vector operations ********* 
     public void add(Vector2D v) {
         this.setX(this.getX() + v.getX());
         this.setY(this.getY() + v.getY());
@@ -64,6 +64,7 @@ public class Vector2D {
         this.y *= n;
     }
 
+    // ********* other ********* 
     public Vector2D copy() {
         return new Vector2D(this.x, this.y);
     }

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import Game.Model;
 import Game.Controllers.ExitController;
 import Game.Controllers.PlayAgainController;
+import Game.Controllers.ViewResultsController;
 
 public class SummaryScreen extends JPanel {
 
@@ -27,6 +28,7 @@ public class SummaryScreen extends JPanel {
     private JLabel gameSummary;
     private JLabel time;
     private JLabel meteors;
+    private JButton viewResults;
     private JButton playAgain;
     private JButton exit;
 
@@ -43,6 +45,9 @@ public class SummaryScreen extends JPanel {
         meteors = new JLabel();
         meteors.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 40));
 
+        viewResults = new JButton("View Results");
+        viewResults.setMaximumSize(new Dimension(200, 100));
+
         playAgain = new JButton("Play Again");
         playAgain.setMaximumSize(new Dimension(200, 100));
 
@@ -56,6 +61,7 @@ public class SummaryScreen extends JPanel {
 
     // adds components to itself
     private void layoutView() {
+        // format info
         JPanel info = new JPanel();
         BoxLayout boxLayoutInfo = new BoxLayout(info, BoxLayout.Y_AXIS);
         info.setLayout(boxLayoutInfo);
@@ -65,13 +71,17 @@ public class SummaryScreen extends JPanel {
         info.add(Box.createRigidArea(new Dimension(0, 10)));
         info.add(meteors);
 
+        // format buttons
         JPanel buttons = new JPanel();
         BoxLayout boxLayoutButtons = new BoxLayout(buttons, BoxLayout.X_AXIS);
         buttons.setLayout(boxLayoutButtons);
+        buttons.add(viewResults);
+        buttons.add(Box.createRigidArea(new Dimension(10, 0)));
         buttons.add(playAgain);
         buttons.add(Box.createRigidArea(new Dimension(10, 0)));
         buttons.add(exit);
 
+        // add components to screen
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(info);
         this.add(Box.createRigidArea(new Dimension(0, 50)));
@@ -80,6 +90,9 @@ public class SummaryScreen extends JPanel {
 
     // sets up controllers
     private void registerControllers() {
+        ViewResultsController viewResultsController = new ViewResultsController();
+        viewResults.addActionListener(viewResultsController);
+
         PlayAgainController playAgainController = new PlayAgainController();
         playAgain.addActionListener(playAgainController);
 
@@ -92,4 +105,4 @@ public class SummaryScreen extends JPanel {
         meteors.setText(String.format("Meteors Dodged: %d", model.getAverage(model.getMeteorsDodged())));
     }
 
-}
+}// class

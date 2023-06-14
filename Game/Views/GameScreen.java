@@ -32,6 +32,7 @@ public class GameScreen extends JPanel {
         model = Model.getInstance();
 
         display = new JGameDisplay(model, GameConstants.DISPLAY_WIDTH, GameConstants.DISPLAY_HEIGHT);
+
         info = new JLabel();
         info.setPreferredSize(new Dimension(50, 100));
         info.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 25));
@@ -45,6 +46,7 @@ public class GameScreen extends JPanel {
     private void layoutView() {
         display.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5, true));
 
+        // add components to screen
         this.setLayout(new BorderLayout());
         this.add(info, BorderLayout.NORTH);
         this.add(display, BorderLayout.CENTER);
@@ -66,4 +68,4 @@ public class GameScreen extends JPanel {
                 String.format("Time: %-6.2f             Round: %-4d            Esc to pause", model.getTimeSurvived(),
                         model.getCurrentRound()));
     }
-}
+}// class

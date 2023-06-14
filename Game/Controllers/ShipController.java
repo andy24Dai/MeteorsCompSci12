@@ -26,31 +26,32 @@ public class ShipController implements KeyListener {
     }
 
     // ************* KeyListener Methods *************
+    // sets acceleration states of ship
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
         switch (key) {
-            case KeyEvent.VK_D: // D
+            case KeyEvent.VK_D: // right
                 latestMoveX = KeyEvent.VK_D;
                 ship.setAccelX(GameConstants.RIGHT);
                 break;
-            case KeyEvent.VK_A: // A
+            case KeyEvent.VK_A: // left
                 latestMoveX = KeyEvent.VK_A;
                 ship.setAccelX(GameConstants.LEFT);
                 break;
-            case KeyEvent.VK_W: // W
+            case KeyEvent.VK_W: // up
                 latestMoveY = KeyEvent.VK_W;
                 ship.setAccelY(GameConstants.UP);
                 break;
-            case KeyEvent.VK_S: // S
+            case KeyEvent.VK_S: // down
                 latestMoveY = KeyEvent.VK_S;
                 ship.setAccelY(GameConstants.DOWN);
                 break;
             default:
                 break;
         }
-    }
+    }// keyPressed
 
     // sets v to 0 if latest key pressed is released
     @Override
@@ -70,4 +71,4 @@ public class ShipController implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-}
+}// class

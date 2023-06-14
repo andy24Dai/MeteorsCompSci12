@@ -20,6 +20,7 @@ public class PauseController implements KeyListener {
         model = Model.getInstance();
     }
 
+    // pauses game when an esc is pressed
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // if escape is pressed
@@ -37,4 +38,4 @@ public class PauseController implements KeyListener {
 
     }
 
-}
+}// class

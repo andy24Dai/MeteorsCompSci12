@@ -20,9 +20,10 @@ public class ContinueController implements ActionListener {
         model = Model.getInstance();
     }
 
+    // continues game when an action is detected
     @Override
     public void actionPerformed(ActionEvent e) {
         model.continueGame();
     }
 
-}
+}// class

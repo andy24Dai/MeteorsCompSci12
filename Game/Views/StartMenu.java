@@ -40,6 +40,8 @@ public class StartMenu extends JPanel {
 
     // adds components to itself
     private void layoutView() {
+
+        // add components to screen
         this.setLayout(new BorderLayout());
         this.add(roundsLabel, BorderLayout.WEST);
         this.add(numRounds, BorderLayout.CENTER);
@@ -52,4 +54,4 @@ public class StartMenu extends JPanel {
         start.addActionListener(controller);
     }
 
-}
+}// class

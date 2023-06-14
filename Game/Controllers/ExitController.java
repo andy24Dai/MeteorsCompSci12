@@ -33,9 +33,10 @@ public class ExitController implements ActionListener {
         frame = mFrame;
     }
 
+    // exits game when an action is detected
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.dispose();
     }
 
-}
+}// class

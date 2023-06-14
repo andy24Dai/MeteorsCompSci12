@@ -20,9 +20,10 @@ public class PlayAgainController implements ActionListener {
         model = Model.getInstance();
     }
 
+    // restarts game when an action is detected
     @Override
     public void actionPerformed(ActionEvent e) {
         model.restartGame();
     }
 
-}
+}// class
